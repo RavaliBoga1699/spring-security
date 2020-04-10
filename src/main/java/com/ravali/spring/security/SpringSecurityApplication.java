@@ -1,0 +1,26 @@
+package com.ravali.spring.security;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+
+import com.ravali.spring.security.dto.ErrorResponseDTO;
+
+@SpringBootApplication
+public class SpringSecurityApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringSecurityApplication.class, args);
+	}
+
+	@Bean
+	public MethodValidationPostProcessor methodValidationPostProcessor() {
+		return new MethodValidationPostProcessor();
+	}
+	
+	@Bean
+	public ErrorResponseDTO errorResponseDTO() {
+		return new ErrorResponseDTO();
+	}
+}
