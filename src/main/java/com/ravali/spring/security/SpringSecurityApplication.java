@@ -19,8 +19,4 @@ public class SpringSecurityApplication {
 		return new MethodValidationPostProcessor();
 	}
 	
-	@Bean
-	public ErrorResponseDTO errorResponseDTO() {
-		return new ErrorResponseDTO();
-	}
 }

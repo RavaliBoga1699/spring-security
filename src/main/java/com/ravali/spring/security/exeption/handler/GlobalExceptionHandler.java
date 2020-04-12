@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.ravali.spring.security.dto.ErrorResponseDTO;
+import com.ravali.spring.security.exeption.UserNotLoggedInException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -76,8 +78,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		errorResponseDTO.setErrors(errors);
 		return new ResponseEntity<Object>(errorResponseDTO,status);
 	}
-
-
+	
+	@ExceptionHandler(UsernameNotFoundException.class)
+	protected ResponseEntity<Object> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+		List<String> errors=new ArrayList<>();
+		errors.add(ex.getMessage());
+		errorResponseDTO.setErrors(errors);
+		return new ResponseEntity<Object>(errorResponseDTO,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(UserNotLoggedInException.class)
+	protected ResponseEntity<Object> handleUserNotLoggedInException(UserNotLoggedInException ex) {
+		List<String> errors=new ArrayList<>();
+		errors.add("It seems you are not logged in to the server.");
+		errorResponseDTO.setErrors(errors);
+		return new ResponseEntity<Object>(errorResponseDTO,HttpStatus.BAD_REQUEST);
+	}
+	
+	
 	
 
 

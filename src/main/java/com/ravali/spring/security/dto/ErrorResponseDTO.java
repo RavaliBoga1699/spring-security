@@ -2,6 +2,9 @@ package com.ravali.spring.security.dto;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ErrorResponseDTO {
 	List<String> errors;
 
