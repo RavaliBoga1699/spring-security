@@ -1,10 +1,14 @@
 package com.ravali.spring.security.auth;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ravali.spring.security.entity.Role;
 import com.ravali.spring.security.entity.User;
 
 public class MyUserDeatails implements UserDetails{
@@ -19,8 +23,12 @@ public class MyUserDeatails implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		List<GrantedAuthority> grantedAuthorities=new ArrayList<>();
+		List<Role> roles=user.getRoles();
+		for(Role role:roles) {
+			grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+		}
+		return grantedAuthorities;
 	}
 
 	@Override

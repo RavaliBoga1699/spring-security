@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,8 @@ public class EmployeeController {
 	 private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 	
 	@GetMapping(value = "/getAllemployees", produces = "application/json")
-	public String getAllEmployees() {
+	public String getAllEmployees(Authentication authentication) {
+		System.out.println(authentication.getAuthorities());
 		return "{\"employee\":{\r\n" + 
 				"\"name\":\"ravali\"\r\n" + 
 				"}}";
@@ -50,6 +53,20 @@ public class EmployeeController {
 		logger.info("::::::::::::::::::::::::validated");
 		EmployeeDTO employeeDTO=new EmployeeDTO();
 		return new ResponseEntity<EmployeeDTO>(employeeDTO, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping(value = "/admin")
+	public ResponseEntity<String> getAdmin(){
+		String msg="only admin has access";
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping(value = "/user")
+	public ResponseEntity<String> getUser(){
+		String msg="only user has access";
+		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 	
 
