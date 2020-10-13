@@ -1,0 +1,32 @@
+<configuration debug="true">
+
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n</pattern>
+			</pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="MyDbAppender"
+		class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+      <driverClass>com.mysql.jdbc.Driver</driverClass>
+      <url>jdbc:mysql://localhost:3306/springsecurity?serverTimezone=UTC</url>
+      <user>root</user>
+      <password></password>
+    </connectionSource>
+	</appender>
+	
+	<logger name="com.ravali" level="INFO" additivity="true">
+		<appender-ref ref="MyDbAppender"/>
+	</logger>
+	
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration> 
