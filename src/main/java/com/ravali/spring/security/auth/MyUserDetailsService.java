@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ravali.spring.security.entity.User;
+import com.ravali.spring.security.models.User;
 import com.ravali.spring.security.service.UserServie;
 
 @Service

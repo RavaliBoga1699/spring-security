@@ -1,4 +1,4 @@
-package com.ravali.spring.security.entity;
+package com.ravali.spring.security.models;
 
 import java.io.Serializable;
 

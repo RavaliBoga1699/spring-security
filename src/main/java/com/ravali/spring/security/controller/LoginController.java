@@ -14,9 +14,6 @@ import com.ravali.spring.security.exeption.UserNotLoggedInException;
 @Validated
 public class LoginController {
 
-
-
-
 	@GetMapping(value = "/login", produces = "application/json")
 	public ResponseEntity<Object> getlogin(@Autowired Authentication authentication){
 		if(authentication==null)

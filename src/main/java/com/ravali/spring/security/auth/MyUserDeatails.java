@@ -8,8 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ravali.spring.security.entity.Role;
-import com.ravali.spring.security.entity.User;
+import com.ravali.spring.security.models.Role;
+import com.ravali.spring.security.models.User;
 
 public class MyUserDeatails implements UserDetails{
 	

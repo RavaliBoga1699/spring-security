@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import com.ravali.spring.security.exeption.InvalidTokenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -94,9 +95,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		errorResponseDTO.setErrors(errors);
 		return new ResponseEntity<Object>(errorResponseDTO,HttpStatus.BAD_REQUEST);
 	}
-	
-	
-	
+
+
+	@ExceptionHandler(InvalidTokenException.class)
+	protected ResponseEntity<Object> handleInvalidTokenException(InvalidTokenException ex) {
+		List<String> errors=new ArrayList<>();
+		errors.add("Invalid token please login and try again.");
+		errorResponseDTO.setErrors(errors);
+		return new ResponseEntity<Object>(errorResponseDTO,HttpStatus.BAD_REQUEST);
+	}
 
 
 
