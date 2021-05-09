@@ -1,4 +1,4 @@
-package com.ravali.spring.security.jwt;
+package com.ravali.spring.security.config.jwt;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.ravali.spring.security.dto.enums.TokenStatus;
 import com.ravali.spring.security.models.Token;
+import com.ravali.spring.security.repository.TokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -25,6 +28,9 @@ public class JwtUtil implements Serializable {
 
     @Value("jwt.secret")
     private String jwtSecret;
+
+    @Autowired
+    TokenRepository tokenRepository;
 
     //@Value("jwt.tocken.validity")
     //expire in mentioned seconds
@@ -53,6 +59,13 @@ public class JwtUtil implements Serializable {
     // validate token
     public Boolean validateToken(Token tokenDto, UserDetails userDetails) {
         String token = tokenDto.getToken();
+
+//        Todo: valdiate token from database
+        Token tokenModel = tokenRepository.findByToken(token);
+        if(tokenModel.getToken() == null || tokenModel.getStatus() != TokenStatus.ACTIVE){
+            return false;
+        }
+
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }

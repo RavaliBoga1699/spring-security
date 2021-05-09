@@ -1,4 +1,4 @@
-package com.ravali.spring.security.filter;
+package com.ravali.spring.security.config;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ravali.spring.security.jwt.JwtUtil;
+import com.ravali.spring.security.config.jwt.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -44,6 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String token = null;
         System.out.println("'" + requestTokenHeader + "'");
         System.out.println(requestTokenHeader != null);
+
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             token = requestTokenHeader.substring(7);
             System.out.println(token);
@@ -57,6 +58,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
         }
+
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 

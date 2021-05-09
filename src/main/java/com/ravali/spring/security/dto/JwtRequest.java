@@ -9,6 +9,8 @@ public class JwtRequest {
 	
 	//@Password
 	private String password;
+
+
 	public String getUsername() {
 		return username;
 	}

@@ -2,16 +2,17 @@ package com.ravali.spring.security.controller;
 
 import com.ravali.spring.security.dto.enums.TokenStatus;
 import com.ravali.spring.security.models.Token;
-import com.ravali.spring.security.models.Token.TokenBuilder;
 import com.ravali.spring.security.repository.TokenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ravali.spring.security.dto.JwtRequest;
 import com.ravali.spring.security.dto.JwtResponse;
-import com.ravali.spring.security.jwt.JwtUtil;
+import com.ravali.spring.security.config.jwt.JwtUtil;
 
 import java.util.Date;
 
@@ -41,8 +42,13 @@ public class JwtAuthenticationController {
     @Autowired
     private TokenRepository tokenRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
@@ -59,6 +65,8 @@ public class JwtAuthenticationController {
                 .status(TokenStatus.ACTIVE)
                 .build();
         tokenRepository.save(tokenModel);
+
+        new ResponseEntity("", HttpStatus.valueOf(0));
 
         return ResponseEntity.ok(new JwtResponse(token));
 

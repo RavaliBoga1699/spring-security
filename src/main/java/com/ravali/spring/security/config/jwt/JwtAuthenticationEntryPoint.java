@@ -1,4 +1,4 @@
-package com.ravali.spring.security.jwt;
+package com.ravali.spring.security.config.jwt;
 
 import java.io.IOException;
 import java.io.Serializable;
